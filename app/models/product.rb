@@ -29,6 +29,10 @@ class Product < ApplicationRecord
     self.price / 100
   end
 
+  def self.top_5_available
+    self.available_and_order_price_desc.limit(5).select(:title, :code)
+  end
+
   private 
 
   def code_validate
