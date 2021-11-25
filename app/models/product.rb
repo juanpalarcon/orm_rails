@@ -5,8 +5,17 @@ class Product < ApplicationRecord
   after_save :send_notification
   after_save :push_notificacion, if: :discount?
 
-  #precio < 5
-  
+  validates :title, presence: {message: "Es necesario definir un valor para el titulo"}
+  validates :code, presence: {message: "Es necesario definir un valor para el codigo"}
+  validates :code, uniqueness: {message: "El codigo: %{value} ya se encuentra en uso"}
+
+  # validates :price, length: { minimum: 3, maximum: 10 }
+  validates :price, length: { in: 3..10, message: "El precio se encuentra fera de rango (Min: 3, Max:10)" }, if: :has_price? 
+    
+  def has_price?
+    !self.price.nil? && self.price > 0
+  end
+
   def discount?
     self.total < 5
   end
@@ -28,3 +37,4 @@ class Product < ApplicationRecord
     puts "\n\n\n\n >>> Un nuevo producto fue añadido a almacen:  #{self.title} - #{self.total} USD"
   end
 end
+
