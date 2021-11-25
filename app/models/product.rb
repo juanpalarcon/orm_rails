@@ -10,6 +10,9 @@ class Product < ApplicationRecord
   validates :code, uniqueness: {message: "El codigo: %{value} ya se encuentra en uso"}
   validates :price, length: { in: 3..10, message: "El precio se encuentra fera de rango (Min: 3, Max:10)" }, if: :has_price? 
 
+
+  validates_with ProductValidator
+
   validate :code_validate
     
   def has_price?
@@ -17,7 +20,7 @@ class Product < ApplicationRecord
   end
 
   def discount?
-    self.total < 5
+    self.total < 5 
   end
   
   def total
