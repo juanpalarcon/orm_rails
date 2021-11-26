@@ -3,4 +3,26 @@ un metodo el cual se ejecuta cuando cierto evento del tipo model ocurre
 *se pueden programar cuando cierta accion ocura
 
 
-validaciones
+update_attribute
+                              1     2
+ product.update_attribute(:price, 1600) 
+
+ 1.-  es el attr que queremos modificar
+ 2.- es el nuevo valor a modificar
+
+ **** con este motodo nos saltamos todas las validaciones ******
+con update_column y update_columns (para varios registros) tambiens e puede actualizar saltandoe las validaciones
+
+
+MONITORAR MODELOS
+
+en rails console podemos monitorar los cambios de un producto con el metodo:
+changed? => nos retorna true o false
+
+para saber que atributo tuvo un cambio con el metodo 
+changes => esto nos retorna un  hash con los cambios => {"code"=>["00252", "121212"]}
+
+para saber el valor anterior que tenia el atributto
+
+attribut_was
+product.code_was => "000292"

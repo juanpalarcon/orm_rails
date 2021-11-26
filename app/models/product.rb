@@ -1,9 +1,12 @@
 class Product < ApplicationRecord
 
   #save
-  before_save :validate_product
-  after_save :send_notification
-  after_save :push_notificacion, if: :discount?
+  before_create :validate_product
+  after_create :send_notification
+  after_create :push_notificacion, if: :discount?
+  after_update :send_notification_update
+  after_destroy :send_notification_destroy_product
+  before_update :code_notification_changed, if: :code_changed?
 
   validates :title, presence: {message: "Es necesario definir un valor para el titulo"}
   validates :code, presence: {message: "Es necesario definir un valor para el codigo"}
@@ -51,6 +54,18 @@ class Product < ApplicationRecord
 
   def send_notification
     puts "\n\n\n\n >>> Un nuevo producto fue añadido a almacen:  #{self.title} - #{self.total} USD"
+  end
+
+  def send_notification_update
+    puts "\n\n\n\n >>> se actualizo un producto #{self.title}"
+  end
+
+  def send_notification_destroy_product
+    puts  "\n\n\n\n >>> se elimino un producto #{self.title}"
+  end
+
+  def code_notification_changed
+    puts  "\n\n\n\n >>> Se actualizo el codigo de un producto #{self.title}-- #{self.code}"
   end
 end
 
